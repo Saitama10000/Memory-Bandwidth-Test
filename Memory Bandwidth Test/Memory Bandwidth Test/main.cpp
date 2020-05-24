@@ -44,7 +44,7 @@ int main()
 		
 		double averageBandwidth{ (N * size * sizeof(*input)) * 1000.0 / (1 << 30) / time };
 
-		std::cout << "Average time: " << time 
+		std::cout << "Average time: " << time << " ms"
 			<< "\nAverage memory bandwidth: " <<  averageBandwidth << " GB/s\n";
 	}
 
