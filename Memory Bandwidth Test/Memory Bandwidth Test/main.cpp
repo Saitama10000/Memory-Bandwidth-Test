@@ -11,8 +11,6 @@ extern "C"
 
 int main()
 {
-	const long long size = 1 << 28;
-	int* input = new int[size];
 
 	int N{ 1 };
 	std::cout << "N=";
@@ -22,6 +20,11 @@ int main()
 	std::cout << "read or write? (r/w) ";
 	std::cin >> ans;
 
+	const long long size = 1 << 26;
+	int** input = new int*[N];
+	for (int i = 0; i < N; i++)
+		input[i] = new int[size];
+
 	std::vector<double> timers;
 	while(true)
 	{
@@ -30,9 +33,9 @@ int main()
 		std::vector<std::thread> threads;
 		for (int i = 0; i < N; i++)
 			if (ans == "r")
-				threads.push_back(std::thread{ read, (void*)input, size });
+				threads.push_back(std::thread{ read, (void*)input[i], size });
 			else
-				threads.push_back(std::thread{ write, (void*)input, size });
+				threads.push_back(std::thread{ write, (void*)input[i], size });
 		for (auto& thread : threads)
 			thread.join();
 		timers.push_back(timer.get_ms()); 
@@ -42,7 +45,7 @@ int main()
 			time += duration;
 		time /= timers.size();
 		
-		double averageBandwidth{ (N * size * sizeof(*input)) * 1000.0 / (1 << 30) / time };
+		double averageBandwidth{ (N * size * sizeof(**input)) * 1000.0 / (1ll << 30) / time };
 
 		std::cout << "Average time: " << time << " ms"
 			<< "\nAverage memory bandwidth: " <<  averageBandwidth << " GB/s\n";

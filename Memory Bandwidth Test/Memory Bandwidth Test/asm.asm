@@ -40,26 +40,26 @@ _TEXT SEGMENT
 		forLoop:
 				sub rdx, 80h
 
-				vmovups ymmword ptr [rcx + rdx * 4 + 000h], ymm0
-				vmovups ymmword ptr [rcx + rdx * 4 + 020h], ymm1
-				vmovups ymmword ptr [rcx + rdx * 4 + 040h], ymm2
-				vmovups ymmword ptr [rcx + rdx * 4 + 060h], ymm3
+				vmovntps ymmword ptr [rcx + rdx * 4 + 000h], ymm0
+				vmovntps ymmword ptr [rcx + rdx * 4 + 020h], ymm1
+				vmovntps ymmword ptr [rcx + rdx * 4 + 040h], ymm2
+				vmovntps ymmword ptr [rcx + rdx * 4 + 060h], ymm3
 
-				vmovups ymmword ptr [rcx + rdx * 4 + 080h], ymm4
-				vmovups ymmword ptr [rcx + rdx * 4 + 0a0h], ymm5
-				vmovups ymmword ptr [rcx + rdx * 4 + 0c0h], ymm6
-				vmovups ymmword ptr [rcx + rdx * 4 + 0e0h], ymm7
+				vmovntps ymmword ptr [rcx + rdx * 4 + 080h], ymm4
+				vmovntps ymmword ptr [rcx + rdx * 4 + 0a0h], ymm5
+				vmovntps ymmword ptr [rcx + rdx * 4 + 0c0h], ymm6
+				vmovntps ymmword ptr [rcx + rdx * 4 + 0e0h], ymm7
 
 				
-				vmovups ymmword ptr [rcx + rdx * 4 + 100h], ymm8
-				vmovups ymmword ptr [rcx + rdx * 4 + 120h], ymm9
-				vmovups ymmword ptr [rcx + rdx * 4 + 140h], ymm10
-				vmovups ymmword ptr [rcx + rdx * 4 + 160h], ymm11
+				vmovntps ymmword ptr [rcx + rdx * 4 + 100h], ymm8
+				vmovntps ymmword ptr [rcx + rdx * 4 + 120h], ymm9
+				vmovntps ymmword ptr [rcx + rdx * 4 + 140h], ymm10
+				vmovntps ymmword ptr [rcx + rdx * 4 + 160h], ymm11
 
-				vmovups ymmword ptr [rcx + rdx * 4 + 180h], ymm12
-				vmovups ymmword ptr [rcx + rdx * 4 + 1a0h], ymm13
-				vmovups ymmword ptr [rcx + rdx * 4 + 1c0h], ymm14
-				vmovups ymmword ptr [rcx + rdx * 4 + 1e0h], ymm15
+				vmovntps ymmword ptr [rcx + rdx * 4 + 180h], ymm12
+				vmovntps ymmword ptr [rcx + rdx * 4 + 1a0h], ymm13
+				vmovntps ymmword ptr [rcx + rdx * 4 + 1c0h], ymm14
+				vmovntps ymmword ptr [rcx + rdx * 4 + 1e0h], ymm15
 
 				cmp rdx, 0
 				jg forLoop
