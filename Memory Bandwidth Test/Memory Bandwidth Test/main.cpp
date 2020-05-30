@@ -1,55 +1,51 @@
-#include <iostream>
-#include <vector>
-#include <thread>
-#include "timer.h"
+#include <stdio.h>
+#include <new>
 
 extern "C"
 {
-	void read(void* input, const long long size);
-	void write(void* input, const long long size);
+	unsigned long long cycle_start();
+	unsigned long long cycle_end();
+	void read(int* input, int size);
 }
 
 int main()
 {
-
-	int N{ 1 };
-	std::cout << "N=";
-	std::cin >> N;
-
-	std::string ans;
-	std::cout << "read or write? (r/w) ";
-	std::cin >> ans;
-
-	const long long size = 1 << 26;
-	int** input = new int*[N];
-	for (int i = 0; i < N; i++)
-		input[i] = new int[size];
-
-	std::vector<double> timers;
-	while(true)
+	const long long size = 1ll << 25;
+	int* input = new int[size];
+	for (int i = 0; i < size; i++)
+		input[i] = i;
+	
+	
+	for (int j = 0; j < 10; j++)
 	{
-		Timer timer;
-		
-		std::vector<std::thread> threads;
-		for (int i = 0; i < N; i++)
-			if (ans == "r")
-				threads.push_back(std::thread{ read, (void*)input[i], size });
-			else
-				threads.push_back(std::thread{ write, (void*)input[i], size });
-		for (auto& thread : threads)
-			thread.join();
-		timers.push_back(timer.get_ms()); 
-		
-		double time{ 0.0 };
-		for (auto& duration : timers)
-			time += duration;
-		time /= timers.size();
-		
-		double averageBandwidth{ (N * size * sizeof(**input)) * 1000.0 / (1ll << 30) / time };
 
-		std::cout << "Average time: " << time << " ms"
-			<< "\nAverage memory bandwidth: " <<  averageBandwidth << " GB/s\n";
+		unsigned long long start = 0;
+		unsigned long long end = 0;
+		unsigned long long duration = 0;
+		unsigned long long cycles = 0;
+		long long n = 0;
+
+		for (int i = 0; i < 1000; i++)
+		{
+			start = cycle_start();
+			read(input, size);
+			end = cycle_end();
+			duration = end - start;
+
+			cycles += duration; n += 1;
+
+		}
+
+		volatile double bandwidth = ((double)size) * 4.0 / ((double)(cycles / n-20)) * 4.0;
+		printf("%15.2e %16lld %16lld %16.2f GB/s  %2.3f%% peak\n",
+				(double)(cycles / n),
+				cycles / n,
+				duration,
+				bandwidth,
+				bandwidth/.4266666
+		);
 	}
-
+	
+	system("pause");
 	return 0;
 }
